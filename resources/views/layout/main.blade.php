@@ -24,13 +24,13 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/">Home</a>
+                        <a class="nav-link" href="{{ url('/')}}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/about">About</a>
+                        <a class="nav-link" href="{{ url('/about')}}">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/mahasiswa">Mahasiswa</a>
+                        <a class="nav-link" href="{{ url('/mahasiswa')}}">Mahasiswa</a>
                     </li>
                     
                 </ul>

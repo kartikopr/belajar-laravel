@@ -16,7 +16,6 @@ class MahasiswaController extends Controller
     public function index()
     {
         $mahasiswa = Student::all();
-        
         return view('mahasiswa/index', ['mahasiswa' => $mahasiswa]);
     }
 
@@ -28,6 +27,7 @@ class MahasiswaController extends Controller
     public function create()
     {
         //
+
     }
 
     /**
@@ -39,6 +39,16 @@ class MahasiswaController extends Controller
     public function store(Request $request)
     {
         //
+
+        $request->validate([
+            'nama' => 'required',
+            'npm' => 'required|size:8',
+            'email' => 'required|email',
+            'jurusan' => 'required'
+        ]);
+
+        Student::create($request->all());
+        return redirect('/mahasiswa')->with('success','Data berhasil ditambahkan!');
     }
 
     /**
@@ -73,6 +83,22 @@ class MahasiswaController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $request->validate([
+            'nama' => 'required',
+            'npm' => 'required|size:8',
+            'email' => 'required|email',
+            'jurusan' => 'required'
+        ]);
+
+        Student::where('id', $id)
+        ->update([
+            'nama' => $request->nama,
+            'npm' => $request->npm,
+            'email' => $request->email,
+            'jurusan' => $request->jurusan,
+        ]);
+        return redirect('/mahasiswa')->with('update','Data berhasil diperbarui!');
+
     }
 
     /**

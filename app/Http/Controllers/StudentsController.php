@@ -37,32 +37,29 @@ class StudentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Cara menyimpan data 1
         // $student = new Student;
         // $student->nama = $request->nama;
         // $student->npm = $request->npm;
         // $student->email = $request->email;
         // $student->jurusan = $request->jurusan;
-
         // $student->save();
 
+
+        //Cara menyimpan data 2
         // Student::create([
         //     'nama' => $request->nama,
         //     'npm' => $request->npm,
         //     'email' => $request->email,
         //     'jurusan' => $request->jurusan
         // ]);
+        
         $request->validate([
             'nama' => 'required',
             'npm' => 'required|size:8',
             'email' => 'required|email',
             'jurusan' => 'required'
         ]);
-
-        $customMessages = [
-            'required'
-        ];
-
 
         Student::create($request->all());
         return redirect('/students')->with('status','Data berhasil ditambahkan!');
@@ -90,6 +87,7 @@ class StudentsController extends Controller
     public function edit(Student $student)
     {
         //
+        return view('students.edit', compact('student'));
     }
 
     /**
@@ -101,7 +99,23 @@ class StudentsController extends Controller
      */
     public function update(Request $request, Student $student)
     {
-        //
+
+        $request->validate([
+            'nama' => 'required',
+            'npm' => 'required|size:8',
+            'email' => 'required|email',
+            'jurusan' => 'required'
+        ]);
+        
+        Student::where('id', $student->id)
+        ->update([
+            'nama' => $request->nama,
+            'npm' => $request->npm,
+            'email' => $request->email,
+            'jurusan' => $request->jurusan,
+        ]);
+        return redirect('/students')->with('update','Data berhasil diperbarui!');
+        
     }
 
     /**
@@ -113,5 +127,8 @@ class StudentsController extends Controller
     public function destroy(Student $student)
     {
         //
+        Student::destroy($student->id);
+        return redirect('/students')->with('hapus','Data berhasil dihapus!');
+
     }
 }

@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('title', 'Add Mahasiswa')
+@section('title', 'Edit Mahasiswa')
 
 
 
@@ -9,14 +9,15 @@
     <div class="row">
         <div class="col-6">
 
-            <h1 class="mt-4">Form Mahasiswa</h1>
+            <h1 class="mt-4">Edit Mahasiswa</h1>
 
-            <form method="post" action="/students">
+            <form method="post" action="/students/{{$student->id}}">
+                @method('patch')
                 @csrf
                 <div class="form-group">
                     <label for="nama">Nama</label>
                     <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama"
-                        placeholder="Masukkan Nama" name="nama" value = "{{old('nama')}}">
+                        placeholder="Masukkan Nama" name="nama" value = "{{$student->nama}}">
                         @error('nama')
                     <div class="invalid-feedback">
                         {{$message}}.
@@ -26,7 +27,7 @@
                 <div class="form-group">
                     <label for="npm">NPM</label>
                     <input type="text" class="form-control @error('npm') is-invalid @enderror" id="npm" placeholder="Masukkan npm" 
-                    name="npm" value = "{{old('npm')}}">
+                    name="npm" value = "{{$student->npm}}">
                     @error('npm')
                     <div class="invalid-feedback">
                         {{$message}}.
@@ -36,7 +37,7 @@
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Masukkan email" name="email"
-                    value = "{{old('email')}}">
+                    value = "{{$student->email}}">
                     @error('email')
                     <div class="invalid-feedback">
                         {{$message}}.
@@ -46,7 +47,7 @@
                 <div class="form-group">
                     <label for="jurusan">Jurusan</label>
                     <input type="text" class="form-control @error('jurusan') is-invalid @enderror" id="jurusan" placeholder="Masukkan jurusan" name="jurusan"
-                    value = "{{old('jurusan')}}">
+                    value = "{{$student->jurusan}}">
                     @error('jurusan')
                     <div class="invalid-feedback">
                         {{$message}}.
@@ -54,7 +55,7 @@
                     @enderror
                 </div>
 
-                <button type="submit" class="btn btn-primary">Tambah Data</button>
+                <button type="submit" class="btn btn-primary">Update Data</button>
             </form>
 
 

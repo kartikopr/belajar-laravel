@@ -16,6 +16,14 @@
             <div class="alert alert-success">
                 {{ session('status') }}
             </div>
+            @elseif (session('hapus'))
+            <div class="alert alert-danger">
+                {{ session('hapus') }}
+            </div>
+            @elseif (session('update'))
+            <div class="alert alert-info">
+                {{ session('update') }}
+            </div>
             @endif
             <ul class="list-group">
                 @foreach($students as $student)

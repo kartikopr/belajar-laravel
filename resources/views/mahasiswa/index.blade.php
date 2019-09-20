@@ -5,6 +5,7 @@
 
 
 @section('container')
+
 <div class="container">
     <div class="row">
         <div class="col-10">
@@ -33,8 +34,6 @@
                 </thead>
                 <tbody>
                     @foreach($mahasiswa as $mhs)
-
-
                     <tr>
                         <th scope="row">{{$loop->iteration}}</th>
                         <td>{{$mhs->nama}}</td>
@@ -42,8 +41,9 @@
                         <td>{{$mhs->email}}</td>
                         <td>{{$mhs->jurusan}}</td>
                         <td>
-                            <a href="{{$mhs->id}}/edit" data-toggle="modal" data-target="#formUpdate"
-                                class="badge badge-success">Edit</a>
+                            <a href="/mahasiswa/{{$mhs->id}}" id = "editData" data-id = "{{$mhs->id}}" data-nama = "{{$mhs->nama}}" data-npm = "{{$mhs->npm}}"
+                            data-email = "{{$mhs->email}}" data-jurusan = "{{$mhs->jurusan}}"
+                                data-toggle="modal" data-target="#formUpdate" class="badge badge-success">Edit</a>
                             <a href="" class="badge badge-danger">Delete</a>
 
                         </td>
@@ -124,7 +124,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="post" action="/mahasiswa/{{$mhs->id}}">
+            <form method="post" action="/mahasiswa/{$mahasiswa}">
                 @method('patch')
                 @csrf
                 <div class="modal-body">
@@ -163,8 +163,48 @@
 
                 </div>
             </form>
-
+        
         </div>
     </div>
 </div>
 {{--End--}}
+
+
+@section('scripts')
+
+<script type="text/javascript">
+    $('#formUpdate').on('show.bs.modal', function (event) {
+        
+        var button = $(event.relatedTarget) 
+        var idMhs = button.data('id') 
+        var nama = button.data('nama')
+        var npm = button.data('npm')  
+        var email = button.data('email')  
+        var jurusan = button.data('jurusan')  
+        var modal = $(this)
+        modal.find('.modal-body #id_mhs').val(idMhs);
+        modal.find('.modal-body #nama').val(nama);
+        modal.find('.modal-body #npm').val(npm);
+        modal.find('.modal-body #email').val(email);
+        modal.find('.modal-body #jurusan').val(jurusan);
+})
+</script>
+
+
+//Harus dicoba di rumah
+<script>
+$('#formUpdate').on('click', function (event) {
+    event.preventDefault();
+    // tangkap data2 yang dibutuhkan untuk dimunculkan di modal
+    // berdasarkan kode agan, yang agan butuhkan di modal hanya $post->body jadi tangkap value ini
+    var idMhs = $(this).parents('.post').find('.article>p').text();
+
+    // isi data2 modal yang dibutuhkan
+    $('#comment-modal .modal-body>text').text(postBody);
+    // munculkan modal
+    $('#comment-modal').modal();
+});
+});
+</script>
+
+@stop

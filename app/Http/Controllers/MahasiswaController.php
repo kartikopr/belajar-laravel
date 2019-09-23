@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Student;
+
 
 class MahasiswaController extends Controller
 {
@@ -16,7 +17,6 @@ class MahasiswaController extends Controller
     public function index()
     {
         $mahasiswa = DB::table('students')->get();
-        
         return view('mahasiswa.index', compact('mahasiswa'));
     }
 
@@ -52,10 +52,10 @@ class MahasiswaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Mahasiswa  $mahasiswa
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Mahasiswa $mahasiswa)
+    public function show($id)
     {
         //
     }
@@ -63,10 +63,10 @@ class MahasiswaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Mahasiswa  $mahasiswa
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Mahasiswa $mahasiswa)
+    public function edit($id)
     {
         //
     }
@@ -75,30 +75,29 @@ class MahasiswaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Mahasiswa  $mahasiswa
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Mahasiswa $mahasiswa)
+    public function update(Request $request, $id)
     {
-        dd($request->all());
-        // Student::where('id', $mahasiswa->id)
-        // ->update([
-        //     'nama' => $request->nama,
-        //     'npm' => $request->npm,
-        //     'email' => $request->email,
-        //     'jurusan' => $request->jurusan,
-        // ]);
-        
-        // return redirect('/mahasiswa')->with('update','Data berhasil diperbarui!');
+        DB::table('students')->where('id',$request->id)->update([
+            'nama' => $request->nama,
+            'npm' => $request->npm,
+            'email' => $request->email,
+            'jurusan' => $request->jurusan,
+		]);
+
+
+        return redirect('/mahasiswa')->with('update','Data berhasil diperbarui!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Mahasiswa  $mahasiswa
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Mahasiswa $mahasiswa)
+    public function destroy($id)
     {
         //
     }

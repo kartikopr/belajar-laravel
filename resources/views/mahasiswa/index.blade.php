@@ -21,7 +21,7 @@
                 {{ session('update') }}
             </div>
             @endif
-            <table class="table">
+            <table class="table" id="datatable">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
@@ -41,9 +41,10 @@
                         <td>{{$mhs->email}}</td>
                         <td>{{$mhs->jurusan}}</td>
                         <td>
-                            <a href="/mahasiswa/{{$mhs->id}}" id = "editData" data-id = "{{$mhs->id}}" data-nama = "{{$mhs->nama}}" data-npm = "{{$mhs->npm}}"
+                            <a href="/mahasiswa/{{$mhs->id}}/edit" id = "editData" data-id = "{{$mhs->id}}" data-nama = "{{$mhs->nama}}" data-npm = "{{$mhs->npm}}"
                             data-email = "{{$mhs->email}}" data-jurusan = "{{$mhs->jurusan}}"
                                 data-toggle="modal" data-target="#formUpdate" class="badge badge-success">Edit</a>
+                            
                             <a href="" class="badge badge-danger">Delete</a>
 
                         </td>
@@ -74,7 +75,7 @@
                     <div class="form-group">
                         <label for="nama" class="col-form-label">Nama</label>
                         <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama"
-                            name="nama" placeholder="Masukkan nama" value = "{{$mhs->nama}}">
+                            name="nama" placeholder="Masukkan nama">
                         @error('nama')
                         <div class="invalid-feedback">
                             {{$message}}.
@@ -84,7 +85,7 @@
                     <div class="form-group">
                         <label for="NPM" class="col-form-label">NPM</label>
                         <input type="text" class="form-control @error('npm') is-invalid @enderror" id="npm" name="npm"
-                            placeholder="Masukkan NPM" value = "{{$mhs->npm}}">
+                            placeholder="Masukkan NPM">
                         @error('npm')
                         <div class="invalid-feedback">
                             {{$message}}.
@@ -93,11 +94,21 @@
                     </div>
                     <div class="form-group">
                         <label for="email" class="col-form-label">Email</label>
-                        <input type="text" class="form-control" id="email" name="email">
+                        <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Masukkan email">
+                        @error('email')
+                        <div class="invalid-feedback">
+                            {{$message}}.
+                        </div>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="jurusan" class="col-form-label">Jurusan</label>
-                        <input type="text" class="form-control" id="jurusan" name="jurusan">
+                        <input type="text" class="form-control @error('jurusan') is-invalid @enderror" id="jurusan" name="jurusan" placeholder="Masukkan jurusan">
+                        @error('jurusan')
+                        <div class="invalid-feedback">
+                            {{$message}}.
+                        </div>
+                        @enderror
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
@@ -124,10 +135,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="post" action="/mahasiswa/{$mahasiswa}">
+            <form method="post" action="/mahasiswa" id="form_update">
                 @method('patch')
                 @csrf
                 <div class="modal-body">
+                    
                     <div class="form-group">
                         <label for="nama" class="col-form-label">Nama</label>
                         <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama"
@@ -173,6 +185,9 @@
 @section('scripts')
 
 <script type="text/javascript">
+    
+    var table = $('#datatable').DataTable();
+
     $('#formUpdate').on('show.bs.modal', function (event) {
         
         var button = $(event.relatedTarget) 
@@ -188,23 +203,15 @@
         modal.find('.modal-body #email').val(email);
         modal.find('.modal-body #jurusan').val(jurusan);
 })
+
 </script>
 
-
-//Harus dicoba di rumah
+@if (count($errors) > 0)
 <script>
-$('#formUpdate').on('click', function (event) {
-    event.preventDefault();
-    // tangkap data2 yang dibutuhkan untuk dimunculkan di modal
-    // berdasarkan kode agan, yang agan butuhkan di modal hanya $post->body jadi tangkap value ini
-    var idMhs = $(this).parents('.post').find('.article>p').text();
-
-    // isi data2 modal yang dibutuhkan
-    $('#comment-modal .modal-body>text').text(postBody);
-    // munculkan modal
-    $('#comment-modal').modal();
-});
-});
+    $( document ).ready(function() {
+        $('#formTambah').modal('show');
+    });
 </script>
+@endif
 
 @stop

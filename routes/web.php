@@ -17,7 +17,9 @@ Route::get('/about', 'PagesController@about');
 
 Route::get('/mahasiswa', 'MahasiswaController@index');
 Route::post('/mahasiswa/post', 'MahasiswaController@store');
-Route::patch('/mahasiswa/{mahasiswa}', 'MahasiswaController@update');
+Route::get('/mahasiswa/{id}/edit', 'MahasiswaController@edit');
+Route::patch('/mahasiswa/{id}', 'MahasiswaController@update')->name('update.mahasiswa');
+
 // Route::resource('mahasiswa','MahasiswaController');
 
 

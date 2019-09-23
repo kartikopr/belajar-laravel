@@ -21,7 +21,7 @@
                 {{ session('update') }}
             </div>
             @endif
-            <table class="table" id="datatable">
+            <table class="table" id="datatable" style="width=100%">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
@@ -186,7 +186,9 @@
 
 <script type="text/javascript">
     
-    var table = $('#datatable').DataTable();
+    $(document).ready(function() {
+    $('#datatable').DataTable();
+} );
 
     $('#formUpdate').on('show.bs.modal', function (event) {
         

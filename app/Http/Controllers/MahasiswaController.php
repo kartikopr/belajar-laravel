@@ -80,12 +80,10 @@ class MahasiswaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        DB::table('students')->where('id',$request->id)->update([
-            'nama' => $request->nama,
-            'npm' => $request->npm,
-            'email' => $request->email,
-            'jurusan' => $request->jurusan,
-		]);
+        // dd($request->all());
+        $mahasiswa_id = Student::findOrFail($request->id_mhs);
+
+        $mahasiswa_id->update($request->all());
 
 
         return redirect('/mahasiswa')->with('update','Data berhasil diperbarui!');

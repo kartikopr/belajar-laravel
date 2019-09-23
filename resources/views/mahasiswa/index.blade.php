@@ -41,10 +41,10 @@
                         <td>{{$mhs->email}}</td>
                         <td>{{$mhs->jurusan}}</td>
                         <td>
-                            <a href="/mahasiswa/{{$mhs->id}}/edit" id = "editData" data-id = "{{$mhs->id}}" data-nama = "{{$mhs->nama}}" data-npm = "{{$mhs->npm}}"
+                            <a href="/mahasiswa/{{$mhs->id}}/edit" data-idmahasiswa = "{{$mhs->id}}" data-nama = "{{$mhs->nama}}" data-npm = "{{$mhs->npm}}"
                             data-email = "{{$mhs->email}}" data-jurusan = "{{$mhs->jurusan}}"
                                 data-toggle="modal" data-target="#formUpdate" class="badge badge-success">Edit</a>
-                            
+
                             <a href="" class="badge badge-danger">Delete</a>
 
                         </td>
@@ -135,11 +135,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="post" action="/mahasiswa" id="form_update">
+            <form method="post" action="/mahasiswa/{$mhs->id}" id="form_update">
                 @method('patch')
                 @csrf
                 <div class="modal-body">
-                    
+                <input type = "text" name ="id_mhs" id ="idMhs"value="{{$mhs->id}}">
                     <div class="form-group">
                         <label for="nama" class="col-form-label">Nama</label>
                         <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama"
@@ -175,7 +175,7 @@
 
                 </div>
             </form>
-        
+
         </div>
     </div>
 </div>
@@ -185,21 +185,21 @@
 @section('scripts')
 
 <script type="text/javascript">
-    
+
     $(document).ready(function() {
     $('#datatable').DataTable();
 } );
 
     $('#formUpdate').on('show.bs.modal', function (event) {
-        
-        var button = $(event.relatedTarget) 
-        var idMhs = button.data('id') 
+
+        var button = $(event.relatedTarget)
+        var id-mhs = button.data('idmahasiswa')
         var nama = button.data('nama')
-        var npm = button.data('npm')  
-        var email = button.data('email')  
-        var jurusan = button.data('jurusan')  
+        var npm = button.data('npm')
+        var email = button.data('email')
+        var jurusan = button.data('jurusan')
         var modal = $(this)
-        modal.find('.modal-body #id_mhs').val(idMhs);
+        modal.find('.modal-body #id').val(id-mhs);
         modal.find('.modal-body #nama').val(nama);
         modal.find('.modal-body #npm').val(npm);
         modal.find('.modal-body #email').val(email);

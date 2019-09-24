@@ -81,11 +81,18 @@ class MahasiswaController extends Controller
     public function update(Request $request, $id)
     {
         // dd($request->all());
-        $mahasiswa_id = Student::findOrFail($request->id_mhs);
+        $mahasiswa_id = Student::findOrFail($request->idmahasiswa);
 
+        $request->validate([
+            'nama' => 'required',
+            'npm' => 'required|size:8',
+            'email' => 'required|email',
+            'jurusan' => 'required'
+        ]);
+
+        
         $mahasiswa_id->update($request->all());
-
-
+        
         return redirect('/mahasiswa')->with('update','Data berhasil diperbarui!');
     }
 

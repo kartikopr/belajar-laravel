@@ -17,7 +17,7 @@
                 {{ session('success') }}
             </div>
             @elseif (session('update'))
-            <div class="alert alert-info">
+            <div class="alert alert-success">
                 {{ session('update') }}
             </div>
             @endif
@@ -135,17 +135,12 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="post" action="/mahasiswa/{$mhs->id}" id="form_update">
+            <form method="post" action="/mahasiswa/{{$mhs->id}}" id="form_update">
                 @method('patch')
                 @csrf
                 <div class="modal-body">
-                   
-                    <div class="form-group">
-                           
-                            <input type="text" class="form-control" id="nama"
-                                name="nama" placeholder="Masukkan nama" value = "{{$mhs->id}}">
-                           
-                        </div>
+                   <input type="hidden" class="form-control" id="id_mhs" name="idmahasiswa" value = "{{$mhs->id}}">
+                    
                     <div class="form-group">
                         <label for="nama" class="col-form-label">Nama</label>
                         <input type="text" class="form-control @error('nama') is-invalid @enderror" id="nama"
@@ -200,13 +195,13 @@
     $('#formUpdate').on('show.bs.modal', function (event) {
 
         var button = $(event.relatedTarget)
-        var id-mhs = button.data('idmahasiswa')
+        var id_mhs = button.data('idmahasiswa')
         var nama = button.data('nama')
         var npm = button.data('npm')
         var email = button.data('email')
         var jurusan = button.data('jurusan')
         var modal = $(this)
-        modal.find('.modal-body #id').val(id-mhs);
+        modal.find('.modal-body #id_mhs').val(id_mhs);
         modal.find('.modal-body #nama').val(nama);
         modal.find('.modal-body #npm').val(npm);
         modal.find('.modal-body #email').val(email);
@@ -219,6 +214,14 @@
 <script>
     $( document ).ready(function() {
         $('#formTambah').modal('show');
+    });
+</script>
+@endif
+
+@if (count($errors) > 0)
+<script>
+    $( document ).ready(function() {
+        $('#formUpdate').modal('show');
     });
 </script>
 @endif

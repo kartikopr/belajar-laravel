@@ -16,8 +16,11 @@ Route::get('/about', 'PagesController@about');
 
 
 Route::get('/mahasiswa', 'MahasiswaController@index');
+
 Route::post('/mahasiswa/post', 'MahasiswaController@store');
-// Route::get('/mahasiswa/{id}/edit', 'MahasiswaController@edit');
+
+Route::delete('/mahasiswa/{id}', 'MahasiswaController@destroy');
+
 Route::patch('/mahasiswa/{id}', 'MahasiswaController@update')->name('update.mahasiswa');
 
 // Route::resource('mahasiswa','MahasiswaController');

@@ -20,6 +20,10 @@
             <div class="alert alert-success">
                 {{ session('update') }}
             </div>
+            @elseif (session('delete'))
+            <div class="alert alert-danger">
+                {{ session('delete') }}
+            </div>
             @endif
             <table class="table" id="datatable" style="width=100%">
                 <thead class="thead-dark">
@@ -43,9 +47,10 @@
                         <td>
                             <a href="/mahasiswa/{{$mhs->id}}/edit" data-idmahasiswa = "{{$mhs->id}}" data-nama = "{{$mhs->nama}}" data-npm = "{{$mhs->npm}}"
                             data-email = "{{$mhs->email}}" data-jurusan = "{{$mhs->jurusan}}"
-                                data-toggle="modal" data-target="#formUpdate" class="badge badge-success">Edit</a>
+                            data-toggle="modal" data-target="#formUpdate" class="badge badge-success">Edit</a>
 
-                            <a href="" class="badge badge-danger">Delete</a>
+                            <a href="" class="badge badge-danger" data-target = "#deleteModal" data-idmahasiswa = "{{$mhs->id}}"
+                            data-toggle="modal">Delete</a>
 
                         </td>
                     </tr>
@@ -184,6 +189,38 @@
 {{--End--}}
 
 
+{{--Delete Modal--}}
+<div class="modal fade" tabindex="-1" role="dialog" id="deleteModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center">Konfirmasi</h5>
+          
+        </div>
+        <form action ="/mahasiswa/{{$mhs->id}}" method = "post">
+        <div class="modal-body">
+                <input type="hidden" class="form-control" id="id_mhs" name="idmahasiswa" value = "{{$mhs->id}}">
+                
+                    @method('delete')
+                    @csrf
+          <p>Apakah anda yakin untuk menghapus data ini ?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+         
+          <button type="submit" class="btn btn-primary">Ya</button>
+          
+            </div>
+            
+        </div>
+    </div>
+</div>
+<form>
+{{--End--}}
+
+
+
+
 @section('scripts')
 
 <script type="text/javascript">
@@ -208,6 +245,15 @@
         modal.find('.modal-body #jurusan').val(jurusan);
 })
 
+$('#deleteModal').on('show.bs.modal', function (event) {
+
+var button = $(event.relatedTarget)
+var id_mhs = button.data('idmahasiswa')
+
+var modal = $(this)
+modal.find('.modal-body #id_mhs').val(id_mhs);
+
+})
 </script>
 
 @if (count($errors) > 0)
